@@ -115,6 +115,8 @@ The datasets used for this project are sourced from Kaggle:
 
 For questions or support, please contact me: [nayakronak72@gmail.com](mailto:nayakronak72@gmail.com)
 
+**Maintainer:** [ankit7610](https://github.com/ankit7610) – [kaushikankit2021@gmail.com](mailto:kaushikankit2021@gmail.com)
+
 ---
 
 ## License
