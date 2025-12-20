@@ -50,8 +50,8 @@ With just an uploaded image of your crop, AgriGo’s AI-powered image recognitio
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/Ronaknayak01/Farmlytics.git
-cd Farmlytics
+git clone https://github.com/ankit7610/FarmPrediction.git
+cd FarmPrediction
 ```
 
 ### Run Locally with Python (v3.8)
@@ -110,12 +110,6 @@ The datasets used for this project are sourced from Kaggle:
 - [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 
 ---
-
-## Contact
-
-For questions or support, please contact me: [nayakronak72@gmail.com](mailto:nayakronak72@gmail.com)
-
-**Maintainer:** [ankit7610](https://github.com/ankit7610) – [kaushikankit2021@gmail.com](mailto:kaushikankit2021@gmail.com)
 
 ---
 
