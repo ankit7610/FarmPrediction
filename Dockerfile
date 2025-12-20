@@ -13,8 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# Define environment variable for Flask
-ENV FLASK_APP=AgriGo/app.py
+# Define environment variable for Flask (point to correct app path)
+ENV FLASK_APP=Farmlytics/app.py
 
 # Run the application
 CMD ["flask", "run", "--host=0.0.0.0"]

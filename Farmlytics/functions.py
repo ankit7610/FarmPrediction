@@ -1,16 +1,16 @@
 import os
 import pickle
 import numpy as np
-from tensorflow.keras.preprocessing.image import load_img
-from tensorflow.keras.models import load_model
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def get_model(path):
+    from tensorflow.keras.models import load_model
     model = load_model(path, compile=False)
     return model
 
 def img_predict(path, crop):
+    from tensorflow.keras.preprocessing.image import load_img
     data = load_img(path, target_size=(224, 224, 3))
     data = np.asarray(data).reshape((-1, 224, 224, 3))
     data = data * 1.0 / 255

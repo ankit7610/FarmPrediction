@@ -17,9 +17,7 @@ importlib-metadata==4.11.3
 itsdangerous==2.1.1
 Jinja2==3.1.0
 joblib==1.1.0
-keras==2.8.0
 Keras-Preprocessing==1.1.2
-libclang==13.0.0
 Markdown==3.3.6
 MarkupSafe==2.1.1
 numpy==1.22.3
@@ -38,8 +36,8 @@ six==1.16.0
 tensorboard==2.8.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow-cpu==2.8.0
-tensorflow-io-gcs-filesystem==0.24.0
+tensorflow-macos==2.10.0
+tensorflow-io-gcs-filesystem==0.37.1
 termcolor==1.1.0
 tf-estimator-nightly==2.8.0.dev2021122109
 threadpoolctl==3.1.0
