@@ -1,66 +1,83 @@
 {% extends "index.html" %}
 {% block content %}
-<div class="container pt-5">
-  <h1 class="text-center" style="color: #8CE17D;">Crop Disease Prediction</h1>
-  <p class="text-center pt-3">Our models provide you an easy,fast and efficient way to detect diseases in your plants.
+
+<div class="container" style="padding-top: 120px; padding-bottom: 60px;">
+  <h1 class="text-center">Crop Disease Detection</h1>
+  <p class="text-center pt-3" style="font-size: 18px;">
+    Our advanced deep learning models provide fast, accurate disease detection for your crops. Upload an image and get instant diagnosis.
   </p>
 </div>
-<form action="{{ url_for('find_crop_disease')}}" method="POST" enctype="multipart/form-data"
-  style="margin-top: 30px; width: 80%; text-align: center; margin: auto">
-  <br>
-  <br>
-  <br>
-  <div class="container">
-    <div class="row d-flex justify-content-center">
-      <label>Choose a crop :</label>
-      <div class="col-md-4">
 
-        <select name="crop" class="form-control" required="required">
-          {% for crop in crops %}
-          <option type="text" value="{{crop}}" data-show=".{{crop}}">{{crop}}</option>
-          {% endfor %}
-        </select>
+<div class="container" style="padding-bottom: 80px;">
+  <form action="{{ url_for('find_crop_disease')}}" method="POST" enctype="multipart/form-data">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <!-- Crop Selection -->
+        <div class="mb-4">
+          <label><i class="fas fa-leaf me-2"></i>Select Crop Type</label>
+          <select name="crop" class="form-control" required="required">
+            <option value="" disabled selected>Choose a crop</option>
+            {% for crop in crops %}
+            <option type="text" value="{{crop}}">{{crop}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="mb-4">
+          <label><i class="fas fa-camera me-2"></i>Upload Crop Image</label>
+          <input class="form-control" name="file" type="file" id="formFile" 
+                 onchange="preview_image(event)" required="required" accept="image/*">
+          <small class="form-text" style="color: #64748b;">
+            Supported formats: JPG, PNG, JPEG. Max size: 5MB
+          </small>
+        </div>
+
+        <!-- Image Preview -->
+        <div class="text-center mb-4">
+          <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(110, 231, 183, 0.05)); 
+                      padding: 20px; border-radius: 20px; border: 2px dashed #e2e8f0;">
+            <img id="output-image" 
+                 src="{{ url_for('send_file', filename=file_name)}}" 
+                 onerror="this.src='./static/images/upload.jpg'"
+                 style="max-width: 100%; max-height: 400px; border-radius: 15px;"
+                 alt="Upload preview" />
+            <p style="font-style: italic; color: #64748b; margin-top: 15px;">{{ file_name or "No image selected" }}</p>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-microscope me-2"></i>Analyze Disease
+          </button>
+        </div>
+
+        <!-- Info Box -->
+        <div class="mt-4" style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.1)); border-radius: 15px;">
+          <h5 style="color: #047857; font-weight: 700;">📸 Tips for Best Results</h5>
+          <ul style="color: #64748b; margin: 10px 0; padding-left: 20px;">
+            <li>Capture clear, well-lit images of affected leaves</li>
+            <li>Include the entire leaf in the frame</li>
+            <li>Avoid blurry or low-resolution images</li>
+            <li>Take photos in natural daylight when possible</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <br />
-    <div class="row d-flex justify-content-center">
-      <label>Upload your image : </label>
-      <div class="col-md-4 pt-2">
-
-        <input class="form-control" name="file" type="file" id="formFile" onchange="preview_image(event)"
-          required="required">
-
-      </div>
-
-    </div>
-    <img id="output-image" class="rounded mx-auto d-block" src="{{ url_for('send_file', filename=file_name)}}"
-      onerror="this.src='./static/images/upload.jpg'"
-      style="max-width: 500px; max-height: 450px; margin-top: 30px; margin-bottom: 2px" />
-    <p style="font-style: italic">{{ file_name }}</p>
-    <br>
-    <div class="row" style="text-align:center;">
-      <div class="col-md-12">
-        <button type="submit" class="btn btn-success" value="submit">predict</button>
-      </div>
-    </div>
-
-  </div>
-
-</form>
-<br>
-<br>
-<br>
+  </form>
+</div>
 
 <script type="text/javascript">
   function preview_image(event) {
     var reader = new FileReader();
     reader.onload = function () {
-      var output = document.getElementById('output-image')
+      var output = document.getElementById('output-image');
       output.src = reader.result;
+      output.parentElement.querySelector('p').textContent = event.target.files[0].name;
     }
     reader.readAsDataURL(event.target.files[0]);
   }
 </script>
-<hr>
 
 {% endblock %}

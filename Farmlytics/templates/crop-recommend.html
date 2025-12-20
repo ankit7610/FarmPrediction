@@ -1,87 +1,77 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div class="container pt-5">
-  <h1 class="text-center" style="color: #8CE17D;">Crop Recommendation</h1>
-  <p class="text-center pt-3">Using your soil composition data and weather condtions we can predict the best type of
-    crop to sow</p>
+<div class="container" style="padding-top: 120px; padding-bottom: 60px;">
+  <h1 class="text-center">Crop Recommendation System</h1>
+  <p class="text-center pt-3" style="font-size: 18px;">Using your soil composition data and weather conditions, our AI model predicts the best crop to cultivate for maximum yield and profitability.</p>
 </div>
-<br>
-<br>
-<div class="container">
 
+<div class="container" style="padding-bottom: 80px;">
+  <div class="row align-items-center">
+    <!-- Form Column -->
+    <div class="col-lg-6 col-md-12 mb-4">
+      <form action="/crop-recommendation" method="POST">
+        <div class="mb-4">
+          <label for="N"><i class="fas fa-flask me-2"></i>Nitrogen Content (N)</label>
+          <input class="form-control" type="number" min="0" required="required" name="N"
+            placeholder="Enter nitrogen content (kg/ha)">
+        </div>
 
-  <div class="col-md-4 col-md-offset-4" style="float: right; margin-top: 5%; margin-right: 10%;margin-bottom: 5%;">
-    <img src="./static/images/upload-img.jpg" width="500" height="333">
+        <div class="mb-4">
+          <label for="P"><i class="fas fa-flask me-2"></i>Phosphorus Content (P)</label>
+          <input class="form-control" type="number" min="0" id="P" name="P" required="required"
+            placeholder="Enter phosphorus content (kg/ha)">
+        </div>
+
+        <div class="mb-4">
+          <label for="K"><i class="fas fa-flask me-2"></i>Potassium Content (K)</label>
+          <input class="form-control" type="number" min="0" id="K" name="K" required="required"
+            placeholder="Enter potassium content (kg/ha)">
+        </div>
+
+        <div class="mb-4">
+          <label for="temperature"><i class="fas fa-thermometer-half me-2"></i>Temperature (°C)</label>
+          <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
+            required="required" placeholder="Enter average temperature">
+        </div>
+
+        <div class="mb-4">
+          <label for="humidity"><i class="fas fa-tint me-2"></i>Humidity (%)</label>
+          <input class="form-control" type="number" min="0" max="100" step="any" id="humidity" name="humidity"
+            required="required" placeholder="Enter relative humidity">
+        </div>
+
+        <div class="mb-4">
+          <label for="phosphore"><i class="fas fa-vial me-2"></i>Soil pH Level</label>
+          <input class="form-control" type="number" min="0" max="14" step="any" id="phosphore" name="phosphore"
+            required="required" placeholder="Enter soil pH (0-14)">
+        </div>
+
+        <div class="mb-4">
+          <label for="rainfall"><i class="fas fa-cloud-rain me-2"></i>Rainfall (mm)</label>
+          <input class="form-control" type="number" min="0" step="any" id="rainfall" name="rainfall"
+            required="required" placeholder="Enter annual rainfall">
+        </div>
+
+        <div class="text-center pt-3">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-search me-2"></i>Get Recommendation
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Image Column -->
+    <div class="col-lg-6 col-md-12 text-center mb-4">
+      <img src="./static/images/upload-img.jpg" class="img-fluid" 
+           style="max-width: 500px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);"
+           alt="Crop Recommendation">
+      <div class="mt-4" style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.1)); border-radius: 15px;">
+        <h5 style="color: #047857; font-weight: 700;">💡 Tip</h5>
+        <p style="color: #64748b; margin: 0;">Accurate soil data leads to better crop recommendations. Consider getting a soil test for precise NPK values.</p>
+      </div>
+    </div>
   </div>
-
-  <form action="/crop-recommendation" method="POST" style="margin-top: 5%">
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="N">Amount of Azote :</label>
-      <input class="form-control" type="number" min="0" required="required" name="N" ,
-        placeholder="enter amount of azote">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="P">Amount of Phosphorous :</label>
-      <input class="form-control" type="number" min="0" id="P" name="P" required="required"
-        placeholder="enter amount of phosphore">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="K">Amount of Potassium :</label>
-      <input class="form-control" type="number" min="0" id="K" name="K" required="required"
-        placeholder="enter amount of potassium">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="temperature">Soil Temperature :</label>
-      <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
-        required="required" placeholder="Enter soil temperature">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="humidity">Soil Humidity :</label>
-      <input class="form-control" type="number" min="0" step="any" id="humidity" name="humidity" required="required"
-        placeholder="enter soil humidity level">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="phosphore">Soil Ph :</label>
-      <input class="form-control" type="number" min="0" step="any" id="phosphore" name="phosphore" required="required"
-        placeholder="enter soil ph">
-
-    </div>
-    <div class="col-md-4 col-md-offset-4">
-
-      <label for="rainfall">Amount of RainFall :</label>
-      <input class="form-control" type="number" min="0" step="any" id="rainfall" name="rainfall" required="required"
-        placeholder="enter amout of rain recieved">
-
-    </div>
-    <br>
-
-
-    <div class="text-center" style="padding-top: 5%">
-      <button type="submit" class="btn btn-success" value="submit">predict</button>
-    </div>
-    <br>
-    <br>
-
-  </form>
-
-
-
 </div>
-
-
-<br>
-<br>
 
 {% endblock %}
