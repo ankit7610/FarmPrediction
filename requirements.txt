@@ -6,7 +6,7 @@ charset-normalizer==2.0.12
 click==8.0.4
 Flask==2.0.3
 flatbuffers==2.0
-gast==0.5.3
+gast==0.4.0
 google-auth==2.6.2
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
@@ -33,7 +33,7 @@ rsa==4.8
 scikit-learn==1.0.2
 scipy==1.8.0
 six==1.16.0
-tensorboard==2.8.0
+tensorboard==2.10.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow-macos==2.10.0

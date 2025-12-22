@@ -1,72 +1,171 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div class="container" style="padding-top: 120px; padding-bottom: 60px;">
-  <h1 class="text-center">Crop Disease Detection</h1>
-  <p class="text-center pt-3" style="font-size: 18px;">
-    Our advanced deep learning models provide fast, accurate disease detection for your crops. Upload an image and get instant diagnosis.
-  </p>
-</div>
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-header-content">
+      <span class="page-badge">
+        <i class="fas fa-microscope me-2"></i>AI Detection
+      </span>
+      <h1 class="page-title">Crop Disease Detection</h1>
+      <p class="page-subtitle">Upload an image of your crop and get instant AI-powered disease diagnosis</p>
+    </div>
+  </div>
+  <div class="page-header-shape"></div>
+</section>
 
-<div class="container" style="padding-bottom: 80px;">
-  <form action="{{ url_for('find_crop_disease')}}" method="POST" enctype="multipart/form-data">
-    <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8">
-        <!-- Crop Selection -->
-        <div class="mb-4">
-          <label><i class="fas fa-leaf me-2"></i>Select Crop Type</label>
-          <select name="crop" class="form-control" required="required">
-            <option value="" disabled selected>Choose a crop</option>
-            {% for crop in crops %}
-            <option type="text" value="{{crop}}">{{crop}}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <!-- Image Upload -->
-        <div class="mb-4">
-          <label><i class="fas fa-camera me-2"></i>Upload Crop Image</label>
-          <input class="form-control" name="file" type="file" id="formFile" 
-                 onchange="preview_image(event)" required="required" accept="image/*">
-          <small class="form-text" style="color: #64748b;">
-            Supported formats: JPG, PNG, JPEG. Max size: 5MB
-          </small>
-        </div>
-
-        <!-- Image Preview -->
-        <div class="text-center mb-4">
-          <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(110, 231, 183, 0.05)); 
-                      padding: 20px; border-radius: 20px; border: 2px dashed #e2e8f0;">
-            <img id="output-image" 
-                 src="{{ url_for('send_file', filename=file_name)}}" 
-                 onerror="this.src='./static/images/upload.jpg'"
-                 style="max-width: 100%; max-height: 400px; border-radius: 15px;"
-                 alt="Upload preview" />
-            <p style="font-style: italic; color: #64748b; margin-top: 15px;">{{ file_name or "No image selected" }}</p>
+<!-- Main Content -->
+<section class="form-section">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Upload Column -->
+      <div class="col-lg-7">
+        <div class="form-card">
+          <div class="form-card-header">
+            <h2><i class="fas fa-camera me-2"></i>Upload Crop Image</h2>
+            <p>Select crop type and upload a clear image of the affected leaf</p>
           </div>
-        </div>
+          <form action="{{ url_for('find_crop_disease')}}" method="POST" enctype="multipart/form-data" class="modern-form">
+            
+            <div class="form-group">
+              <label for="crop">
+                <i class="fas fa-leaf"></i>
+                <span>Crop Type</span>
+              </label>
+              <div class="input-wrapper select-wrapper">
+                <select name="crop" class="form-control" required id="crop">
+                  <option value="" disabled selected>Select your crop</option>
+                  {% for crop in crops %}
+                  <option value="{{crop}}">{{ crop|capitalize }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
 
-        <!-- Submit Button -->
-        <div class="text-center">
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-microscope me-2"></i>Analyze Disease
-          </button>
-        </div>
+            <!-- Image Upload Area -->
+            <div class="upload-area" id="uploadArea">
+              <input class="form-control" name="file" type="file" id="formFile" 
+                     onchange="preview_image(event)" required accept="image/*" hidden>
+              <label for="formFile" class="upload-label">
+                <div class="upload-content" id="uploadContent">
+                  <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <h4>Drag & Drop or Click to Upload</h4>
+                  <p>Supports: JPG, PNG, JPEG (Max 5MB)</p>
+                </div>
+                <div class="preview-container" id="previewContainer" style="display: none;">
+                  <img id="output-image" src="" alt="Preview">
+                  <div class="preview-overlay">
+                    <i class="fas fa-edit"></i>
+                    <span>Change Image</span>
+                  </div>
+                </div>
+              </label>
+              <p class="file-name" id="fileName"></p>
+            </div>
 
-        <!-- Info Box -->
-        <div class="mt-4" style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.1)); border-radius: 15px;">
-          <h5 style="color: #047857; font-weight: 700;">📸 Tips for Best Results</h5>
-          <ul style="color: #64748b; margin: 10px 0; padding-left: 20px;">
-            <li>Capture clear, well-lit images of affected leaves</li>
-            <li>Include the entire leaf in the frame</li>
-            <li>Avoid blurry or low-resolution images</li>
-            <li>Take photos in natural daylight when possible</li>
-          </ul>
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">
+                <i class="fas fa-search-plus me-2"></i>
+                <span>Analyze Disease</span>
+              </button>
+              <button type="reset" class="btn-reset" onclick="resetPreview()">
+                <i class="fas fa-redo me-2"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Info Column -->
+      <div class="col-lg-5">
+        <div class="info-sidebar">
+          <div class="info-card">
+            <div class="info-card-icon">
+              <i class="fas fa-camera"></i>
+            </div>
+            <h3>Photo Tips</h3>
+            <ul class="tips-list">
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <span>Use natural daylight for best results</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <span>Capture the entire affected leaf</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <span>Ensure image is clear and focused</span>
+              </li>
+              <li>
+                <i class="fas fa-check-circle"></i>
+                <span>Show disease symptoms clearly</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="info-card highlight">
+            <div class="info-card-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>Deep Learning Model</h3>
+            <p>Our CNN-based model is trained on thousands of images to accurately identify plant diseases across multiple crop types.</p>
+            <div class="accuracy-badge">
+              <span class="accuracy-number">93%</span>
+              <span class="accuracy-label">Detection Accuracy</span>
+            </div>
+          </div>
+
+          <div class="supported-crops">
+            <h4><i class="fas fa-leaf me-2"></i>Supported Crops</h4>
+            <div class="crop-grid">
+              <div class="crop-item">
+                <i class="fas fa-apple-alt"></i>
+                <span>Apple</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-lemon"></i>
+                <span>Cherry</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-seedling"></i>
+                <span>Corn</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-wine-glass-alt"></i>
+                <span>Grape</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-carrot"></i>
+                <span>Peach</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-pepper-hot"></i>
+                <span>Pepper</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-circle"></i>
+                <span>Potato</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-heart"></i>
+                <span>Strawberry</span>
+              </div>
+              <div class="crop-item">
+                <i class="fas fa-apple-alt"></i>
+                <span>Tomato</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </form>
-</div>
+  </div>
+</section>
 
 <script type="text/javascript">
   function preview_image(event) {
@@ -74,9 +173,59 @@
     reader.onload = function () {
       var output = document.getElementById('output-image');
       output.src = reader.result;
-      output.parentElement.querySelector('p').textContent = event.target.files[0].name;
+      document.getElementById('uploadContent').style.display = 'none';
+      document.getElementById('previewContainer').style.display = 'block';
+      document.getElementById('fileName').textContent = event.target.files[0].name;
     }
     reader.readAsDataURL(event.target.files[0]);
+  }
+
+  function resetPreview() {
+    document.getElementById('output-image').src = '';
+    document.getElementById('uploadContent').style.display = 'block';
+    document.getElementById('previewContainer').style.display = 'none';
+    document.getElementById('fileName').textContent = '';
+  }
+
+  // Drag and drop functionality
+  const uploadArea = document.getElementById('uploadArea');
+  
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    uploadArea.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    uploadArea.addEventListener(eventName, highlight, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    uploadArea.addEventListener(eventName, unhighlight, false);
+  });
+
+  function highlight() {
+    uploadArea.classList.add('drag-over');
+  }
+
+  function unhighlight() {
+    uploadArea.classList.remove('drag-over');
+  }
+
+  uploadArea.addEventListener('drop', handleDrop, false);
+
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    document.getElementById('formFile').files = files;
+    
+    if (files.length > 0) {
+      const event = { target: { files: files } };
+      preview_image(event);
+    }
   }
 </script>
 
