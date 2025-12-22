@@ -1,93 +1,208 @@
 {% extends "index.html" %}
 {% block content %}
 
-<div class="container" style="padding-top: 120px; padding-bottom: 60px;">
-    <h1 class="text-center">Fertilizer Recommendation System</h1>
-    <p class="text-center pt-3" style="font-size: 18px;">
-        Based on your soil composition and crop type, our AI model recommends the optimal fertilizer for enhanced growth and productivity.
-    </p>
-</div>
-
-<div class="container" style="padding-bottom: 80px;">
-    <div class="row align-items-center">
-        <!-- Form Column -->
-        <div class="col-lg-6 col-md-12 mb-4">
-            <form action="/fertilizer-recommendation" method="POST">
-                <div class="mb-4">
-                    <label for="temperature"><i class="fas fa-thermometer-half me-2"></i>Temperature (°C)</label>
-                    <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
-                        required="required" placeholder="Enter average temperature">
-                </div>
-
-                <div class="mb-4">
-                    <label for="humidity"><i class="fas fa-tint me-2"></i>Humidity (%)</label>
-                    <input class="form-control" type="number" min="0" max="100" step="any" id="humidity" name="humidity"
-                        required="required" placeholder="Enter relative humidity">
-                </div>
-
-                <div class="mb-4">
-                    <label for="moisture"><i class="fas fa-water me-2"></i>Soil Moisture (%)</label>
-                    <input class="form-control" type="number" min="0" max="100" step="any" id="moisture" name="moisture"
-                        required="required" placeholder="Enter soil moisture level">
-                </div>
-
-                <div class="mb-4">
-                    <label for="N"><i class="fas fa-flask me-2"></i>Nitrogen Content (N)</label>
-                    <input class="form-control" type="number" min="0" required="required" name="N"
-                        placeholder="Enter nitrogen content (kg/ha)">
-                </div>
-
-                <div class="mb-4">
-                    <label for="P"><i class="fas fa-flask me-2"></i>Phosphorus Content (P)</label>
-                    <input class="form-control" type="number" min="0" id="P" name="P" required="required"
-                        placeholder="Enter phosphorus content (kg/ha)">
-                </div>
-
-                <div class="mb-4">
-                    <label for="K"><i class="fas fa-flask me-2"></i>Potassium Content (K)</label>
-                    <input class="form-control" type="number" min="0" id="K" name="K" required="required"
-                        placeholder="Enter potassium content (kg/ha)">
-                </div>
-
-                <div class="mb-4">
-                    <label for="soil"><i class="fas fa-mountain me-2"></i>Soil Type</label>
-                    <select name="soil" class="form-control" required="required">
-                        <option value="" disabled selected>Select your soil type</option>
-                        {% for i, soil in soil_types %}
-                        <option type="text" value="{{i}}" data-show=".{{soil}}">{{soil}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="mb-4">
-                    <label for="crop"><i class="fas fa-seedling me-2"></i>Crop Type</label>
-                    <select name="crop" class="form-control" required="required">
-                        <option value="" disabled selected>Select your crop type</option>
-                        {% for i, crop in crop_types %}
-                        <option type="text" value="{{i}}" data-show=".{{crop}}">{{crop}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="text-center pt-3">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-search me-2"></i>Get Recommendation
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Image Column -->
-        <div class="col-lg-6 col-md-12 text-center mb-4">
-            <img src="./static/images/upload-img.jpg" class="img-fluid"
-                 style="max-width: 500px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);"
-                 alt="Fertilizer Recommendation">
-            <div class="mt-4" style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(110, 231, 183, 0.1)); border-radius: 15px;">
-                <h5 style="color: #047857; font-weight: 700;">🌱 Smart Farming</h5>
-                <p style="color: #64748b; margin: 0;">Right fertilizer at the right time can increase your crop yield by up to 40% while reducing costs.</p>
-            </div>
-        </div>
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <div class="page-header-content">
+      <span class="page-badge">
+        <i class="fas fa-flask me-2"></i>AI Recommendation
+      </span>
+      <h1 class="page-title">Fertilizer Recommendation</h1>
+      <p class="page-subtitle">Get optimized fertilizer suggestions based on your soil nutrients and crop type</p>
     </div>
-</div>
+  </div>
+  <div class="page-header-shape"></div>
+</section>
+
+<!-- Main Content -->
+<section class="form-section">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Form Column -->
+      <div class="col-lg-7">
+        <div class="form-card">
+          <div class="form-card-header">
+            <h2><i class="fas fa-vial me-2"></i>Enter Soil & Crop Data</h2>
+            <p>Provide your field conditions for accurate recommendations</p>
+          </div>
+          <form action="/fertilizer-recommendation" method="POST" class="modern-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="temperature">
+                  <i class="fas fa-thermometer-half"></i>
+                  <span>Temperature</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" step="any" id="temperature" name="temperature"
+                    required placeholder="e.g., 25">
+                  <span class="input-unit">°C</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="humidity">
+                  <i class="fas fa-tint"></i>
+                  <span>Humidity</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" max="100" step="any" id="humidity" name="humidity"
+                    required placeholder="e.g., 70">
+                  <span class="input-unit">%</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="moisture">
+                  <i class="fas fa-water"></i>
+                  <span>Soil Moisture</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" max="100" step="any" id="moisture" name="moisture"
+                    required placeholder="e.g., 35">
+                  <span class="input-unit">%</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="N">
+                  <i class="fas fa-atom"></i>
+                  <span>Nitrogen (N)</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" required name="N"
+                    placeholder="e.g., 50" id="N">
+                  <span class="input-unit">kg/ha</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="P">
+                  <i class="fas fa-atom"></i>
+                  <span>Phosphorus (P)</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" id="P" name="P" required
+                    placeholder="e.g., 40">
+                  <span class="input-unit">kg/ha</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="K">
+                  <i class="fas fa-atom"></i>
+                  <span>Potassium (K)</span>
+                </label>
+                <div class="input-wrapper">
+                  <input class="form-control" type="number" min="0" id="K" name="K" required
+                    placeholder="e.g., 30">
+                  <span class="input-unit">kg/ha</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="soil">
+                  <i class="fas fa-mountain"></i>
+                  <span>Soil Type</span>
+                </label>
+                <div class="input-wrapper select-wrapper">
+                  <select name="soil" class="form-control" required id="soil">
+                    <option value="" disabled selected>Select soil type</option>
+                    {% for i, soil in soil_types %}
+                    <option value="{{i}}">{{soil}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="crop">
+                  <i class="fas fa-seedling"></i>
+                  <span>Crop Type</span>
+                </label>
+                <div class="input-wrapper select-wrapper">
+                  <select name="crop" class="form-control" required id="crop">
+                    <option value="" disabled selected>Select crop type</option>
+                    {% for i, crop in crop_types %}
+                    <option value="{{i}}">{{crop}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-submit">
+                <i class="fas fa-magic me-2"></i>
+                <span>Get Recommendation</span>
+              </button>
+              <button type="reset" class="btn-reset">
+                <i class="fas fa-redo me-2"></i>
+                <span>Reset</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Info Column -->
+      <div class="col-lg-5">
+        <div class="info-sidebar">
+          <div class="info-card">
+            <div class="info-card-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Understanding NPK</h3>
+            <ul class="tips-list">
+              <li>
+                <i class="fas fa-leaf" style="color: #22c55e;"></i>
+                <span><strong>Nitrogen (N):</strong> Promotes leaf growth</span>
+              </li>
+              <li>
+                <i class="fas fa-flower" style="color: #f59e0b;"></i>
+                <span><strong>Phosphorus (P):</strong> Supports root development</span>
+              </li>
+              <li>
+                <i class="fas fa-apple-alt" style="color: #ef4444;"></i>
+                <span><strong>Potassium (K):</strong> Enhances fruit quality</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="info-card highlight">
+            <div class="info-card-icon">
+              <i class="fas fa-hand-holding-seedling"></i>
+            </div>
+            <h3>Smart Fertilization</h3>
+            <p>Using the right fertilizer at the right time can increase crop yield by up to 40% while reducing input costs.</p>
+            <div class="stats-row">
+              <div class="mini-stat">
+                <span class="mini-stat-number">40%</span>
+                <span class="mini-stat-label">Yield Increase</span>
+              </div>
+              <div class="mini-stat">
+                <span class="mini-stat-number">25%</span>
+                <span class="mini-stat-label">Cost Savings</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fertilizer-types">
+            <h4><i class="fas fa-flask me-2"></i>Fertilizer Types</h4>
+            <div class="crop-tags">
+              <span>Urea</span>
+              <span>DAP</span>
+              <span>10-26-26</span>
+              <span>14-35-14</span>
+              <span>17-17-17</span>
+              <span>20-20</span>
+              <span>28-28</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
