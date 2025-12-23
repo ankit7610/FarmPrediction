@@ -2080,3 +2080,67 @@ section {
   background: var(--primary);
   color: white;
 }
+
+/* ===== RECENT ACTIVITY SECTION ===== */
+.history-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.history-item {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.history-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.history-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.history-icon.crop {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+}
+
+.history-icon.disease {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.history-content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-dark);
+}
+
+.history-content p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin: 0 0 0.25rem 0;
+}
+
+.history-date {
+  font-size: 0.8rem;
+  color: var(--text-lighter);
+}

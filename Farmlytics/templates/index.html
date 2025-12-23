@@ -213,6 +213,20 @@
 		</div>
 	</section>
 
+	<!-- Recent Activity Section (Hidden by default, shown via JS) -->
+	<section id="recent-activity" aria-label="Recent Activity" style="display: none; background-color: #f8f9fa;">
+		<div class="container">
+			<div class="section-header">
+				<span class="section-badge">HISTORY</span>
+				<h2 class="section-title">Your Recent <span class="gradient-text">Activity</span></h2>
+				<p class="section-subtitle">Access your past recommendations and analysis results</p>
+			</div>
+			<div class="history-grid" id="history-list">
+				<!-- Populated by JS -->
+			</div>
+		</div>
+	</section>
+
 	<!-- Services Section -->
 	<section id="services" aria-label="Services">
 		<div class="container">
@@ -408,6 +422,7 @@
 	{% endblock %}
 
 	<!-- Scripts -->
+	<script type="text/javascript" src="./static/js/idb-service.js"></script>
 	<script type="text/javascript" src="./static/js/my.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
 		integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
@@ -417,6 +432,19 @@
 		crossorigin="anonymous"></script>
 	
 	<script>
+		// Register Service Worker
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('/static/sw.js')
+					.then(registration => {
+						console.log('ServiceWorker registration successful');
+					})
+					.catch(err => {
+						console.log('ServiceWorker registration failed: ', err);
+					});
+			});
+		}
+
 		// Navbar scroll effect
 		window.addEventListener('scroll', function() {
 			const navbar = document.getElementById('mainNav');
@@ -424,6 +452,30 @@
 				navbar.classList.add('scrolled');
 			} else {
 				navbar.classList.remove('scrolled');
+			}
+		});
+
+		// Load Recent Activity
+		document.addEventListener('DOMContentLoaded', async () => {
+			const historyContainer = document.getElementById('history-list');
+			if (historyContainer && window.FarmlyticsDB) {
+				const history = await window.FarmlyticsDB.getHistory();
+				
+				if (history.length > 0) {
+					document.getElementById('recent-activity').style.display = 'block';
+					historyContainer.innerHTML = history.map(item => `
+						<div class="history-item">
+							<div class="history-icon ${item.type === 'disease' ? 'disease' : 'crop'}">
+								<i class="fas ${item.type === 'disease' ? 'fa-microscope' : (item.type === 'fertilizer' ? 'fa-flask' : 'fa-seedling')}"></i>
+							</div>
+							<div class="history-content">
+								<h4>${item.result}</h4>
+								<p>${item.type.charAt(0).toUpperCase() + item.type.slice(1)} Recommendation</p>
+								<span class="history-date">${new Date(item.date).toLocaleDateString()}</span>
+							</div>
+						</div>
+					`).join('');
+				}
 			}
 		});
 	</script>
