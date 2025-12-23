@@ -176,3 +176,35 @@
 127.0.0.1 - - [20/Dec/2025 22:41:33] "[36mGET /static/images/upload-img.jpg HTTP/1.1[0m" 304 -
 127.0.0.1 - - [20/Dec/2025 22:41:33] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
 127.0.0.1 - - [20/Dec/2025 22:41:33] "[36mGET /static/js/my.js HTTP/1.1[0m" 304 -
+ * Detected change in '/Users/ankitkaushik/Desktop/Farmlytics/Farmlytics/functions.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 538-078-325
+Traceback (most recent call last):
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/bin/flask", line 7, in <module>
+    sys.exit(main())
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/flask/cli.py", line 995, in main
+    cli.main(args=sys.argv[1:])
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/flask/cli.py", line 601, in main
+    return super().main(*args, **kwargs)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/core.py", line 1873, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/decorators.py", line 93, in new_func
+    return ctx.invoke(f, obj, *args, **kwargs)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/flask/cli.py", line 854, in run_command
+    run_simple(
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/werkzeug/serving.py", line 1009, in run_simple
+    _rwr(
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/werkzeug/_reloader.py", line 418, in run_with_reloader
+    ensure_echo_on()
+  File "/Users/ankitkaushik/Desktop/Farmlytics/.venv/lib/python3.10/site-packages/werkzeug/_reloader.py", line 398, in ensure_echo_on
+    termios.tcsetattr(sys.stdin, termios.TCSANOW, attributes)
+termios.error: (4, 'Interrupted system call')
