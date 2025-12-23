@@ -132,6 +132,20 @@
   </div>
 </section>
 
+<script>
+  window.addEventListener('load', async () => {
+    if (window.FarmlyticsDB) {
+      const result = "{{ result }}";
+      const image = "{{ image_file_name }}";
+      await window.FarmlyticsDB.savePrediction('disease', result, {
+        image: image,
+        timestamp: new Date().toISOString()
+      });
+      console.log('Disease prediction saved to history');
+    }
+  });
+</script>
+
 <style>
 @keyframes scaleIn {
   from { transform: scale(0); opacity: 0; }

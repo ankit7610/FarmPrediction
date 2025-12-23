@@ -96,6 +96,20 @@
   </div>
 </section>
 
+<script>
+  window.addEventListener('load', async () => {
+    if (window.FarmlyticsDB) {
+      const result = "{{ result }}";
+      const type = window.location.pathname.includes('fertilizer') ? 'fertilizer' : 'crop';
+      // We can add more details if available, but for now result is the main thing
+      await window.FarmlyticsDB.savePrediction(type, result, {
+        timestamp: new Date().toISOString()
+      });
+      console.log('Prediction saved to history');
+    }
+  });
+</script>
+
 <style>
 @keyframes scaleIn {
   from { transform: scale(0); opacity: 0; }
