@@ -199,10 +199,4 @@ Short Render setup:
 
 MIT — see the `LICENSE` file.
 
----
-
-If you'd like, I can:
-
-- open a PR from a new branch with this README change, or
-- split this README into `README.md` (overview) + `DEVELOPER.md` (deep technical/deploy/run docs).
 
